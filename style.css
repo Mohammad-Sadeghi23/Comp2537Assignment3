@@ -1,0 +1,83 @@
+/* === BASE === */
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+/* === GAME BOARD === */
+#game_grid {
+  border: 2px solid tomato;
+  margin: 20px auto;
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  align-content: center;
+  padding: 10px;
+}
+
+/* === CARD CONTAINER === */
+.card {
+  width: 100px;
+  height: 140px;
+  perspective: 1000px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* === CARD INNER FLIP LAYER === */
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+/* Flip animation when matched or clicked */
+.card-inner.flip {
+  transform: rotateY(180deg);
+}
+
+/* === FRONT & BACK FACES === */
+.front_face,
+.back_face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* Front is rotated, visible only on flip */
+.front_face {
+  transform: rotateY(180deg);
+}
+
+/* Ensure all images fit their cards */
+img {
+  width: 100%;
+  height: 100%;
+}
+
+/* === THEME SUPPORT === */
+body.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.light .card {
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+body.dark .card {
+  border: 1px solid #444;
+  background-color: #1e1e1e;
+}
