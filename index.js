@@ -10,7 +10,7 @@ let secondsPassed = 0;
 let streak = 0;
 let powerUsed = false;
 
-
+// Event listeners for buttons and theme change
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("start-btn").addEventListener("click", () => {
     const level = document.getElementById("difficulty").value;
@@ -24,7 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
+// Function to start the game
+// This function initializes the game based on the selected difficulty level
+// It sets the number of pairs, resets the game state, and starts the timer
 function startGame(difficulty) {
   const pairCount = difficulty === "easy" ? 3 : difficulty === "medium" ? 6 : 12;
   totalPairs = pairCount;
@@ -41,6 +43,9 @@ function startGame(difficulty) {
   startTimer();
 }
 
+// Function to generate Pokemon cards
+// This function creates a set of unique Pokemon cards based on the count provided
+// It uses the PokeAPI to fetch the images and returns an array of card objects
 function generatePokemonCards(count) {
   const used = new Set();
   const cards = [];
@@ -58,6 +63,9 @@ function generatePokemonCards(count) {
   return fullSet.sort(() => Math.random() - 0.5); // shuffle
 }
 
+// Function to render the cards on the game grid
+// This function creates the card elements and appends them to the grid
+// It also sets the grid layout based on the selected difficulty level
 function renderCards(cards) {
   const grid = document.getElementById("game_grid");
   grid.innerHTML = "";
@@ -92,6 +100,11 @@ function renderCards(cards) {
   });
 }
 
+// Function to handle card click events
+// This function checks if the clicked card is valid, flips it, and checks for matches
+// If a match is found, it disables the cards; otherwise, it flips them back after a delay
+// It also updates the game status and checks for win conditions
+// If the player has used the power-up, it will not be available again
 function handleCardClick(card) {
   if (lockBoard || card.querySelector(".card-inner").classList.contains("flip")) return;
 
@@ -137,12 +150,17 @@ function handleCardClick(card) {
   }
 }
 
+// Function to reset the flipped cards
 function resetFlipped() {
   firstCard = null;
   secondCard = null;
   lockBoard = false;
 }
 
+// Function to start the timer
+// This function initializes the timer and updates the status every second
+// If the time runs out, it disables all cards and shows a game over message
+// It also updates the status with the remaining time and elapsed time
 function startTimer() {
   clearInterval(timerInterval);
   timerInterval = setInterval(() => {
@@ -158,6 +176,9 @@ function startTimer() {
   }, 1000);
 }
 
+// Function to update the game status
+// This function updates the status display with the current game state
+// It shows the total pairs, matches, pairs left, clicks, and time remaining
 function updateStatus() {
   const status = document.getElementById("status");
   const left = totalPairs - matches;
@@ -165,12 +186,18 @@ function updateStatus() {
   | Clicks: ${clicks} | You got ${secondsLeft} seconds left | ${secondsPassed} seconds have passed`;
 }
 
+// Function to disable all cards
+// This function replaces all card elements with clones to disable events
+// It prevents any further interaction with the cards after the game ends
 function disableAllCards() {
   document.querySelectorAll(".card").forEach(card => {
     card.replaceWith(card.cloneNode(true)); // disables all events
   });
 }
 
+// Function to trigger the power-up
+// This function activates the power-up, giving the player bonus time
+// It sets the powerUsed flag to true and updates the status display
 function triggerPowerUp() {
   powerUsed = true;
   secondsLeft += 3; // give bonus time
